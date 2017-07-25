@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+
+<body style="background-color: gray; padding: 20px">
+  <canvas id="draw" style="background-color: white"></canvas>
+  <script>
+    // Setting up canvas
+    const canvas = document.querySelector('#draw');
+    canvas.height = window.innerHeight - 20 * 2;
+    canvas.width = window.innerWidth - 20 * 2;
+
+    const ctx = canvas.getContext('2d');
+
+    // Setting up stuff that is needed
+    const COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
+    const STEPS = 1000;
+
+    const MIN_X = 10;
+    const MAX_X = canvas.width - 10;
+
+    const MIN_Y = 10;
+    const MAX_Y = canvas.height - 10;
+
+    const MAX_LENGTH = 100; //Math.max(MAX_Y, MAX_X);
+
+    const START_X = Math.floor(Math.random() * MAX_X);
+    const START_Y = Math.floor(Math.random() * MAX_Y);
+
+    var lengths = [];
+    var angles = [];
+    var colors = [];
+
+    for (var i = 0; i < STEPS; i++) {
+      lengths.push(Math.random() * MAX_LENGTH);
+      angles.push(Math.floor((Math.random() * 4)));
+      colors.push(COLORS[Math.floor((Math.random() * COLORS.length))]);
+    }
+
+    console.log('START', START_X, START_Y);
+    console.log('lengths', lengths);
+    console.log('angles', angles);
+    console.log('colors', angles);
+
+    // Drawing
+    var lastPoint = {
+      x: START_X,
+      y: START_Y
+    };
+
+    for (var i = 0; i < STEPS; i++) {
+      var newPoint = lastPoint;
+      var length = lengths[i];
+      ctx.beginPath();
+      ctx.moveTo(lastPoint.x, lastPoint.y);
+      ctx.strokeStyle = colors[i];
+
+      switch (angles[i]) {
+        case 0:
+          // up
+          newPoint.x = Math.max(newPoint.x -= length, MIN_X);
+          break;
+        case 1:
+          // down
+          newPoint.x = Math.min(newPoint.x += length, MAX_X);
+          break;
+        case 2:
+          // left
+          newPoint.y = Math.max(newPoint.y -= length, MIN_Y);
+          break;
+        case 3:
+          // right
+          newPoint.y = Math.min(newPoint.y += length, MAX_Y);
+          break;
+        default:
+          console.log("test");
+          break;
+      };
+      ctx.lineTo(newPoint.x, newPoint.y);
+      ctx.stroke();
+      ctx.closePath();
+      lastPoint = newPoint;
+    }
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+  </style>
+
+</body>
+
+</html>
