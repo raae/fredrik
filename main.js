@@ -1,5 +1,6 @@
 // Setting up stuff that is needed
-var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
+var COLORS = ['ff002a', 'c04b5e', 'ff002a', '512930', '42040f', 'f1abf7', 'e808fc', 'ac21b9', '4a0f4f', '5e4460', 'b79cf1', '5203fe', '280476', '4b425f', '170244', 'c4fefd', '00fffb', '78b9b8', '007270', '2f4242', 'bfffd9', '00ff66', '6fb58b', '00712d', '2d4737', 'cfffb5', '59ff00', '82bd62', '2f8700', '354e28', 'f8ff97', 'eeff00', 'b9c058', '7a8300', '424425', 'ffed9c', 'ffd000', 'bba856', '6b5700', '473f1f', 'ffdec1', 'fe7700', 'a3744b', '7b3900', '432d19', 'fadad8', 'ff1100', 'ba483f', '810900', '3c1614'];
+
 var STEPS = 200;
 
 var WAIT_TIME = 100;
