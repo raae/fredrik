@@ -5,10 +5,10 @@ var STEPS = 200;
 var WAIT_TIME = 100;
 
 var MIN_X = 10;
-var MAX_X = 300; //canvas.width - 10;
+var MAX_X = view.size.width - 10;
 
 var MIN_Y = 10;
-var MAX_Y = 200; //canvas.height - 10;
+var MAX_Y = view.size.height - 10;
 
 var MAX_LENGTH = 50; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
 
