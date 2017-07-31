@@ -1,0 +1,19 @@
+{
+  "name": "artgenerator",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "paper": "^0.11.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lillylabs/fredrik.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lillylabs/fredrik/issues"
+  },
+  "homepage": "https://github.com/lillylabs/fredrik#readme"
+}

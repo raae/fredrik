@@ -4,107 +4,26 @@
 <head>
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
+  <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
+  <script type="text/paperscript" src="main.js" canvas="draw" resize></script>
 </head>
 
-<body style="background-color: gray; padding: 20px">
+<body>
   <canvas id="draw" style="background-color: white"></canvas>
-  <script>
-    // Setting up canvas
-    const canvas = document.querySelector('#draw');
-    canvas.height = window.innerHeight - 20 * 2;
-    canvas.width = window.innerWidth - 20 * 2;
-
-    const ctx = canvas.getContext('2d');
-
-    // Setting up stuff that is needed
-    const COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
-    const STEPS = 200;
-
-    const WAIT_TIME = 100;
-
-    const MIN_X = 10;
-    const MAX_X = canvas.width - 10;
-
-    const MIN_Y = 10;
-    const MAX_Y = canvas.height - 10;
-
-    const MAX_LENGTH = 50; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
-
-    const START_X = Math.floor(Math.random() * MAX_X);
-    const START_Y = Math.floor(Math.random() * MAX_Y);
-
-    var lengths = [];
-    var angles = [];
-    var colors = [];
-
-    for (var i = 0; i < STEPS; i++) {
-      lengths.push(Math.random() * MAX_LENGTH);
-      angles.push(Math.floor((Math.random() * 4)));
-      colors.push(COLORS[Math.floor((Math.random() * COLORS.length))]);
-    }
-
-    // Logging key variables
-    console.log('START', START_X, START_Y);
-    console.log('size', MAX_X, MAX_Y);
-    console.log('lengths', lengths);
-    console.log('angles', angles);
-    console.log('colors', colors);
-
-    // Draw line function
-    function drawLine(point, length, color, angle) {
-      ctx.beginPath();
-      ctx.moveTo(point.x, point.y);
-      ctx.strokeStyle = color
-
-      switch (angle) {
-        case 0:
-          // up
-          point.x = Math.max(point.x - length, MIN_X);
-          break;
-        case 1:
-          // down
-          point.x = Math.min(point.x + length, MAX_X);
-          break;
-        case 2:
-          // left
-          point.y = Math.max(point.y - length, MIN_Y);
-          break;
-        case 3:
-          // right
-          point.y = Math.min(point.y + length, MAX_Y);
-          break;
-        default:
-          console.log("In deafult, something is wrong");
-          break;
-      };
-      ctx.lineTo(point.x, point.y);
-      ctx.stroke();
-      ctx.closePath();
-      return point;
-    }
-
-    // Drawing
-    var point = {
-      x: START_X,
-      y: START_Y
-    };
-
-    var i = 0;
-    function loopIt() {
-      if (i < STEPS) {
-        // console.log('Tegne strek', i, lengths[i], colors[i], angles[i]);
-        point = drawLine(point, lengths[i], colors[i], angles[i]);
-        setTimeout(loopIt, WAIT_TIME);
-        i++;
-      }
-    };
-    loopIt();
-  </script>
 
   <style>
     html,
     body {
       margin: 0;
+      background-color: gray;
+      height: 100%;
+    }
+
+    #draw {
+      width: calc(100% - 40px);
+      height: calc(100% - 40px);
+      margin-top: 20px;
+      margin-left: 20px;
     }
   </style>
 
