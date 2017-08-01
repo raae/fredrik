@@ -1,6 +1,6 @@
 // Constants
 var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
-var WAIT_TIME = 100;
+var WAIT_TIME = 50;
 
 var MIN_X = 10;
 var MAX_X = view.size.width - 10;
@@ -105,13 +105,16 @@ function loopIt(i, point, numberOfLines, randoms) {
   if (i < numberOfLines) {
     // console.log('Tegne strek', i, lengths[i], colors[i], angles[i]);
     point = drawLine(point, randoms.lengths[i], randoms.colors[i], randoms.angles[i]);
-    loopIt(i++, point, numberOfLines, randoms);
+    setTimeout(function () {
+      loopIt(i++, point, numberOfLines, randoms);
+    }, WAIT_TIME);
   } else {
     drawingCompleted();
   }
 };
 
 function drawOnCanvas(numberOfLines, maxLength, colorsToPickFrom) {
+  setControlsState(false);
   var randoms = generateRandomValues(numberOfLines, maxLength, colorsToPickFrom);
   var point = {
     x: Math.floor(Math.random() * MAX_X),
