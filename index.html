@@ -35,6 +35,10 @@
     .button {
       width: 100%;
     }
+
+    input {
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -47,11 +51,11 @@
         <div class="field">
           <label class="label">Antall streker</label>
           <div class="control">
-            <input class="input" type="number"></input>
+            <input id="number-of-lines" class="input" type="number"></input>
           </div>
         </div>
       </div>
-      <div id="controls">
+      <div id="controls" class="active">
         <div class="field">
           <button class="button is-primary" id="draw" href="#">
             <span>Tegn &nbsp;</span>

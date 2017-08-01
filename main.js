@@ -1,8 +1,31 @@
+// Constants
+var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
+var WAIT_TIME = 100;
+
+var MIN_X = 10;
+var MAX_X = view.size.width - 10;
+
+var MIN_Y = 10;
+var MAX_Y = view.size.height - 10;
+
+var MAX_LENGTH = 50; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
+
+
 // Input and buttons
 ////////////////////////
 ////////////////////////
+var numberOfLines = 200;
+
 var $controls = document.querySelector('#controls');
 var $download = document.querySelector('#download');
+
+var $numberOfLines = document.querySelector('#number-of-lines');
+$numberOfLines.value = numberOfLines;
+
+var $draw = document.querySelector('#draw');
+$draw.addEventListener('click', function () {
+  drawOnCanvas($numberOfLines.value, MAX_LENGTH, COLORS);
+});
 
 function setControlsState(isActive) {
   if (isActive) {
@@ -58,55 +81,41 @@ var drawLine = function (point, length, color, angle) {
   return point;
 }
 
-// Setting up stuff that is needed
-var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
-var STEPS = 200;
+function generateRandomValues(numberOfLines, maxLength, colorsToPickFrom) {
+  var lengths = [];
+  var angles = [];
+  var colors = [];
 
-var WAIT_TIME = 100;
+  for (var i = 0; i < numberOfLines; i++) {
+    lengths.push(Math.random() * maxLength);
+    angles.push(Math.floor((Math.random() * 4)));
+    colors.push(colorsToPickFrom[Math.floor((Math.random() * colorsToPickFrom.length))]);
+  }
 
-var MIN_X = 10;
-var MAX_X = view.size.width - 10;
-
-var MIN_Y = 10;
-var MAX_Y = view.size.height - 10;
-
-var MAX_LENGTH = 50; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
-
-var START_X = Math.floor(Math.random() * MAX_X);
-var START_Y = Math.floor(Math.random() * MAX_Y);
-
-var lengths = [];
-var angles = [];
-var colors = [];
-
-for (var i = 0; i < STEPS; i++) {
-  lengths.push(Math.random() * MAX_LENGTH);
-  angles.push(Math.floor((Math.random() * 4)));
-  colors.push(COLORS[Math.floor((Math.random() * COLORS.length))]);
+  return {
+    lengths: lengths,
+    angles: angles,
+    colors: colors
+  }
 }
 
-// Logging key variables
-console.log('START', START_X, START_Y);
-console.log('size', MAX_X, MAX_Y);
-console.log('lengths', lengths);
-console.log('angles', angles);
-console.log('colors', colors);
-
-// Drawing
-var point = {
-  x: START_X,
-  y: START_Y
-};
-
-var i = 0;
-function loopIt() {
-  if (i < STEPS) {
+function loopIt(i, point, numberOfLines, randoms) {
+  console.log(i, numberOfLines, randoms);
+  if (i < numberOfLines) {
     // console.log('Tegne strek', i, lengths[i], colors[i], angles[i]);
-    point = drawLine(point, lengths[i], colors[i], angles[i]);
-    setTimeout(loopIt, WAIT_TIME);
-    i++;
+    point = drawLine(point, randoms.lengths[i], randoms.colors[i], randoms.angles[i]);
+    loopIt(i++, point, numberOfLines, randoms);
   } else {
     drawingCompleted();
   }
 };
-loopIt();
+
+function drawOnCanvas(numberOfLines, maxLength, colorsToPickFrom) {
+  var randoms = generateRandomValues(numberOfLines, maxLength, colorsToPickFrom);
+  var point = {
+    x: Math.floor(Math.random() * MAX_X),
+    y: Math.floor(Math.random() * MAX_Y)
+  };
+  console.log(randoms);
+  loopIt(0, point, numberOfLines, randoms);
+}
