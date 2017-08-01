@@ -7,7 +7,7 @@ var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
 var FORMAT_WIDTH = 4;
 var FORMAT_HEIGHT = 3;
 
-var MAX_LENGTH = 100; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
+var MAX_LENGTH = 30; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
 
 
 // Canvas size
@@ -53,12 +53,16 @@ heightInput.addEventListener('change', function () {
   });
 })
 
+var lineLengthProcentageInput = document.querySelector('#line-length-procentage');
+lineLengthProcentageInput.value = MAX_LENGTH;
+
 var drawButton = document.querySelector('#draw');
 drawButton.addEventListener('click', function () {
+  var lineLengthSideInput = document.querySelector('input[name="line-length-side"]:checked');
   var options = {
     numberOfLines: numberOfLinesInput.value,
     waitTime: waitTimeInput.value,
-    maxLength: MAX_LENGTH,
+    maxLength: (MAX_LENGTH / 100) * (lineLengthSideInput.value === 'height' ? paper.view.size.height - 20 : paper.view.size.width - 20),
     colors: COLORS,
     size: {
       min: {

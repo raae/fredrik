@@ -58,23 +58,48 @@
             <input id="height" class="input" type="number"></input>
           </div>
         </div>
+        <label class="label">Maks lengde per strek</label>
+        <div class="field has-addons">
+          <div class="control">
+            <input id="line-length-procentage" class="input" type="number"></input>
+          </div>
+          <div class="control">
+            <button class="button is-static">i prosent</button>
+          </div>
+        </div>
         <div class="field">
-          <label class="label">Antall streker</label>
+          <label class="label">av hvilken side</label>
+          <div class="control">
+            <label class="radio" id="line-length-of">
+              <input type="radio" value="width" name="line-length-side"></input>
+              Bredde
+            </label>
+            <label class="radio">
+              <input type="radio" value="height" name="line-length-side" checked></input>
+              Høyde
+            </label>
+          </div>
+        </div>
+        <label class="label">Antall streker</label>
+        <div class="field">
           <div class="control">
             <input id="number-of-lines" class="input" type="number"></input>
           </div>
         </div>
-        <div class="field">
-          <label class="label">Tid mellom streker (ms)</label>
+        <label class="label">Tid mellom streker</label>
+        <div class="field has-addons">
           <div class="control">
             <input id="wait-time" class="input" type="number"></input>
           </div>
+          <div class="control">
+            <button class="button is-static">i ms</button>
+          </div>
         </div>
         <div class="field">
-          <button class="button is-primary" id="draw" href="#">
+          <a class="button is-primary" id="draw" href="#">
             <span>Tegn &nbsp;</span>
             <i class="fa fa-pencil"></i>
-          </button>
+          </a>
         </div>
         <div class="field">
           <a class="button is-primary" id="download" download="art.svg" href="#">
