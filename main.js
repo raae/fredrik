@@ -4,52 +4,88 @@ var WAIT_TIME = 50;
 
 var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
 
-var MIN_X = 10;
-var MAX_X = view.size.width - 10;
+var FORMAT_WIDTH = 4;
+var FORMAT_HEIGHT = 3;
 
-var MIN_Y = 10;
-var MAX_Y = view.size.height - 10;
+var MAX_LENGTH = 100; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
 
-var MAX_LENGTH = 50; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X);
 
+// Canvas size
+////////////////////////
+////////////////////////
+
+function setCanvasSize(format) {
+  paper.view.viewSize = new Size(paper.view.size.width, paper.view.size.width / format.width * format.height);
+}
+
+setCanvasSize({ width: FORMAT_WIDTH, height: FORMAT_HEIGHT })
 
 // Input and buttons
 ////////////////////////
 ////////////////////////
 
-var $controls = document.querySelector('#controls');
-var $download = document.querySelector('#download');
+var controlsEl = document.querySelector('#controls');
+var downloadButton = document.querySelector('#download');
 
-var $numberOfLines = document.querySelector('#number-of-lines');
-$numberOfLines.value = NUMBER_OF_LINES;
+var numberOfLinesInput = document.querySelector('#number-of-lines');
+numberOfLinesInput.value = NUMBER_OF_LINES;
 
-var $waitTime = document.querySelector('#wait-time');
-$waitTime.value = WAIT_TIME;
+var waitTimeInput = document.querySelector('#wait-time');
+waitTimeInput.value = WAIT_TIME;
 
-var $draw = document.querySelector('#draw');
-$draw.addEventListener('click', function () {
-  paper.project.clear();
+var widthInput = document.querySelector('#width');
+widthInput.value = FORMAT_WIDTH;
+
+var heightInput = document.querySelector('#height');
+heightInput.value = FORMAT_HEIGHT;
+
+widthInput.addEventListener('change', function () {
+  setCanvasSize({
+    width: widthInput.value,
+    height: heightInput.value
+  });
+})
+
+heightInput.addEventListener('change', function () {
+  setCanvasSize({
+    width: widthInput.value,
+    height: heightInput.value
+  });
+})
+
+var drawButton = document.querySelector('#draw');
+drawButton.addEventListener('click', function () {
   var options = {
-    numberOfLines: $numberOfLines.value,
-    waitTime: $waitTime.value,
+    numberOfLines: numberOfLinesInput.value,
+    waitTime: waitTimeInput.value,
     maxLength: MAX_LENGTH,
-    colors: COLORS
+    colors: COLORS,
+    size: {
+      min: {
+        x: 10,
+        y: 10,
+      },
+      max: {
+        x: paper.view.size.width - 10,
+        y: paper.view.size.height - 10,
+      }
+    }
   };
-
+  paper.project.clear();
   drawOnCanvas(options);
 });
 
 function setControlsState(isActive) {
   if (isActive) {
-    $controls.classList.add('active');
+    controlsEl.classList.add('active');
   } else {
-    $controls.classList.remove('active');
+    controlsEl.classList.remove('active');
   }
 }
 
 function setDownloadHref() {
   var url = "data:image/svg+xml;utf8," + encodeURIComponent(paper.project.exportSVG({ asString: true }));
-  $download.href = url;
+  downloadButton.href = url;
 }
 
 function drawingCompleted() {
@@ -62,7 +98,7 @@ function drawingCompleted() {
 ////////////////////////
 
 // Draw line function
-var drawLine = function (point, length, color, angle) {
+var drawLine = function (point, length, color, angle, size) {
   var path = new Path();
   var start = new Point(point.x, point.y);
   path.strokeColor = color;
@@ -71,19 +107,19 @@ var drawLine = function (point, length, color, angle) {
   switch (angle) {
     case 0:
       // up
-      point.x = Math.max(point.x - length, MIN_X);
+      point.x = Math.max(point.x - length, size.min.x);
       break;
     case 1:
       // down
-      point.x = Math.min(point.x + length, MAX_X);
+      point.x = Math.min(point.x + length, size.max.x);
       break;
     case 2:
       // left
-      point.y = Math.max(point.y - length, MIN_Y);
+      point.y = Math.max(point.y - length, size.min.y);
       break;
     case 3:
       // right
-      point.y = Math.min(point.y + length, MAX_Y);
+      point.y = Math.min(point.y + length, size.max.y);
       break;
     default:
       console.log("In deafult, something is wrong");
@@ -113,7 +149,7 @@ function generateRandomValues(options) {
 
 function loopIt(i, point, options, randoms) {
   if (i < options.numberOfLines) {
-    point = drawLine(point, randoms.lengths[i], randoms.colors[i], randoms.angles[i]);
+    point = drawLine(point, randoms.lengths[i], randoms.colors[i], randoms.angles[i], options.size);
     if (options.waitTime > 0) {
       setTimeout(function () {
         loopIt(i++, point, options, randoms);
@@ -130,9 +166,11 @@ function drawOnCanvas(options) {
   setControlsState(false);
   var randoms = generateRandomValues(options);
   var point = {
-    x: Math.floor(Math.random() * MAX_X),
-    y: Math.floor(Math.random() * MAX_Y)
+    x: Math.floor(Math.random() * paper.view.size.width - 10),
+    y: Math.floor(Math.random() * paper.view.size.height)
   };
-  console.log(randoms);
+
+  console.log('Options', options);
+  console.log('Randoms', randoms);
   loopIt(0, point, options, randoms);
 }

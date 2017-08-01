@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.4/paper-full.min.js"></script>
-  <script type="text/paperscript" src="main.js" canvas="canvas"></script>
+  <script type="text/paperscript" src="main.js" canvas="canvas" keepalive="true"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
@@ -18,13 +18,12 @@
 
     #canvas {
       width: 100%;
-      height: 100%;
+      height: calc(100% - 2.75rem);
     }
 
     #controls {
       pointer-events: none;
       opacity: 0.6;
-      margin-top: 0.75rem;
     }
 
     #controls.active {
@@ -32,22 +31,33 @@
       opacity: 1;
     }
 
-    .button {
-      width: 100%;
+    .column.is-2 {
+      padding-right: 2rem !important;
     }
 
-    .has-text-centered input {
-      text-align: center;
+    .button {
+      width: 100%;
     }
   </style>
 </head>
 
-<body class="container is-fluid">
+<body>
   <div class="columns section">
 
-    <canvas class="column" id="canvas" style="background-color: white"></canvas>
-    <div class="column is-narrow">
-      <div id="inputs" class="has-text-centered">
+    <div class="column is-2">
+      <div id="controls" class="active">
+        <label class="label">Format</label>
+        <div class="field has-addons">
+          <div class="control">
+            <input id="width" class="input" type="number"></input>
+          </div>
+          <div class="control">
+            <button class="button is-static">&nbsp;:&nbsp;</button>
+          </div>
+          <div class="control">
+            <input id="height" class="input" type="number"></input>
+          </div>
+        </div>
         <div class="field">
           <label class="label">Antall streker</label>
           <div class="control">
@@ -60,8 +70,6 @@
             <input id="wait-time" class="input" type="number"></input>
           </div>
         </div>
-      </div>
-      <div id="controls" class="active">
         <div class="field">
           <button class="button is-primary" id="draw" href="#">
             <span>Tegn &nbsp;</span>
@@ -76,6 +84,10 @@
         </div>
       </div>
     </div>
+    <div class="column">
+      <canvas id="canvas" style="background-color: white"></canvas>
+    </div>
+
   </div>
 </body>
 
