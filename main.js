@@ -62,7 +62,7 @@ drawButton.addEventListener('click', function () {
   var options = {
     numberOfLines: numberOfLinesInput.value,
     waitTime: waitTimeInput.value,
-    maxLength: (MAX_LENGTH / 100) * (lineLengthSideInput.value === 'height' ? paper.view.size.height - 20 : paper.view.size.width - 20),
+    maxLength: (lineLengthProcentageInput.value / 100) * (lineLengthSideInput.value === 'height' ? paper.view.size.height - 20 : paper.view.size.width - 20),
     colors: COLORS,
     size: {
       min: {
