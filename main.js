@@ -1,6 +1,8 @@
 // Constants
-var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
+var NUMBER_OF_LINES = 200;
 var WAIT_TIME = 50;
+
+var COLORS = ['red', 'blue', 'green', 'purple', 'pink', 'yellow'];
 
 var MIN_X = 10;
 var MAX_X = view.size.width - 10;
@@ -14,18 +16,27 @@ var MAX_LENGTH = 50; //Other possibilities 100, 200, 400, Math.max(MAX_Y, MAX_X)
 // Input and buttons
 ////////////////////////
 ////////////////////////
-var numberOfLines = 200;
 
 var $controls = document.querySelector('#controls');
 var $download = document.querySelector('#download');
 
 var $numberOfLines = document.querySelector('#number-of-lines');
-$numberOfLines.value = numberOfLines;
+$numberOfLines.value = NUMBER_OF_LINES;
+
+var $waitTime = document.querySelector('#wait-time');
+$waitTime.value = WAIT_TIME;
 
 var $draw = document.querySelector('#draw');
 $draw.addEventListener('click', function () {
   paper.project.clear();
-  drawOnCanvas($numberOfLines.value, MAX_LENGTH, COLORS);
+  var options = {
+    numberOfLines: $numberOfLines.value,
+    waitTime: $waitTime.value,
+    maxLength: MAX_LENGTH,
+    colors: COLORS
+  };
+
+  drawOnCanvas(options);
 });
 
 function setControlsState(isActive) {
@@ -82,15 +93,15 @@ var drawLine = function (point, length, color, angle) {
   return point;
 }
 
-function generateRandomValues(numberOfLines, maxLength, colorsToPickFrom) {
+function generateRandomValues(options) {
   var lengths = [];
   var angles = [];
   var colors = [];
 
-  for (var i = 0; i < numberOfLines; i++) {
-    lengths.push(Math.random() * maxLength);
+  for (var i = 0; i < options.numberOfLines; i++) {
+    lengths.push(Math.random() * options.maxLength);
     angles.push(Math.floor((Math.random() * 4)));
-    colors.push(colorsToPickFrom[Math.floor((Math.random() * colorsToPickFrom.length))]);
+    colors.push(options.colors[Math.floor((Math.random() * options.colors.length))]);
   }
 
   return {
@@ -100,26 +111,28 @@ function generateRandomValues(numberOfLines, maxLength, colorsToPickFrom) {
   }
 }
 
-function loopIt(i, point, numberOfLines, randoms) {
-  console.log(i, numberOfLines, randoms);
-  if (i < numberOfLines) {
-    // console.log('Tegne strek', i, lengths[i], colors[i], angles[i]);
+function loopIt(i, point, options, randoms) {
+  if (i < options.numberOfLines) {
     point = drawLine(point, randoms.lengths[i], randoms.colors[i], randoms.angles[i]);
-    setTimeout(function () {
-      loopIt(i++, point, numberOfLines, randoms);
-    }, WAIT_TIME);
+    if (options.waitTime > 0) {
+      setTimeout(function () {
+        loopIt(i++, point, options, randoms);
+      }, options.waitTime);
+    } else {
+      loopIt(i++, point, options, randoms);
+    }
   } else {
     drawingCompleted();
   }
 };
 
-function drawOnCanvas(numberOfLines, maxLength, colorsToPickFrom) {
+function drawOnCanvas(options) {
   setControlsState(false);
-  var randoms = generateRandomValues(numberOfLines, maxLength, colorsToPickFrom);
+  var randoms = generateRandomValues(options);
   var point = {
     x: Math.floor(Math.random() * MAX_X),
     y: Math.floor(Math.random() * MAX_Y)
   };
   console.log(randoms);
-  loopIt(0, point, numberOfLines, randoms);
+  loopIt(0, point, options, randoms);
 }

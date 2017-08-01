@@ -36,7 +36,7 @@
       width: 100%;
     }
 
-    input {
+    .has-text-centered input {
       text-align: center;
     }
   </style>
@@ -47,11 +47,17 @@
 
     <canvas class="column" id="canvas" style="background-color: white"></canvas>
     <div class="column is-narrow">
-      <div id="inputs">
+      <div id="inputs" class="has-text-centered">
         <div class="field">
           <label class="label">Antall streker</label>
           <div class="control">
             <input id="number-of-lines" class="input" type="number"></input>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Tid mellom streker (ms)</label>
+          <div class="control">
+            <input id="wait-time" class="input" type="number"></input>
           </div>
         </div>
       </div>
