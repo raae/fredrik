@@ -6,6 +6,8 @@
   <title>HTML5 Canvas</title>
   <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
   <script type="text/paperscript" src="main.js" canvas="draw"></script>
+  <link rel="stylesheet" href="node_modules/bulma/css/bulma.css">
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
   <style>
     html,
     body {
@@ -14,18 +16,12 @@
       height: 100%;
     }
 
-    body {
-      display: flex;
-    }
-
     #draw {
-      width: calc(100% - 40px);
-      height: calc(100% - 40px);
-      margin: 20px;
+      width: 100%;
+      height: 100%;
     }
 
     #controls {
-      margin: 20px;
       pointer-events: none;
       opacity: 0.6;
     }
@@ -37,10 +33,15 @@
   </style>
 </head>
 
-<body>
-  <canvas id="draw" style="background-color: white"></canvas>
-  <div id="controls">
-    <a id="download" download="art.svg" href="#">Last ned</a>
+<body class="container is-fluid">
+  <div class="columns section">
+    <canvas class="column" id="draw" style="background-color: white"></canvas>
+    <div class="column is-narrow" id="controls">
+      <a class="button is-primary" id="download" download="art.svg" href="#">
+      Last ned &nbsp;
+      <i class="fa fa-download"></i>
+    </a>
+    </div>
   </div>
 </body>
 
