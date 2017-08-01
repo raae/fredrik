@@ -24,6 +24,7 @@ $numberOfLines.value = numberOfLines;
 
 var $draw = document.querySelector('#draw');
 $draw.addEventListener('click', function () {
+  paper.project.clear();
   drawOnCanvas($numberOfLines.value, MAX_LENGTH, COLORS);
 });
 
