@@ -5,12 +5,7 @@
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
   <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
-  <script type="text/paperscript" src="main.js" canvas="draw" resize></script>
-</head>
-
-<body>
-  <canvas id="draw" style="background-color: white"></canvas>
-
+  <script type="text/paperscript" src="main.js" canvas="draw"></script>
   <style>
     html,
     body {
@@ -19,14 +14,34 @@
       height: 100%;
     }
 
+    body {
+      display: flex;
+    }
+
     #draw {
       width: calc(100% - 40px);
       height: calc(100% - 40px);
-      margin-top: 20px;
-      margin-left: 20px;
+      margin: 20px;
+    }
+
+    #controls {
+      margin: 20px;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    #controls.active {
+      pointer-events: all;
+      opacity: 1;
     }
   </style>
+</head>
 
+<body>
+  <canvas id="draw" style="background-color: white"></canvas>
+  <div id="controls">
+    <a id="download" download="art.svg" href="#">Last ned</a>
+  </div>
 </body>
 
 </html>
