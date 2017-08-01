@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
   <script type="text/javascript" src="node_modules/paper/dist/paper-full.js"></script>
-  <script type="text/paperscript" src="main.js" canvas="draw"></script>
+  <script type="text/paperscript" src="main.js" canvas="canvas"></script>
   <link rel="stylesheet" href="node_modules/bulma/css/bulma.css">
   <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
   <style>
@@ -16,7 +16,7 @@
       height: 100%;
     }
 
-    #draw {
+    #canvas {
       width: 100%;
       height: 100%;
     }
@@ -24,23 +24,47 @@
     #controls {
       pointer-events: none;
       opacity: 0.6;
+      margin-top: 0.75rem;
     }
 
     #controls.active {
       pointer-events: all;
       opacity: 1;
     }
+
+    .button {
+      width: 100%;
+    }
   </style>
 </head>
 
 <body class="container is-fluid">
   <div class="columns section">
-    <canvas class="column" id="draw" style="background-color: white"></canvas>
-    <div class="column is-narrow" id="controls">
-      <a class="button is-primary" id="download" download="art.svg" href="#">
-      Last ned &nbsp;
-      <i class="fa fa-download"></i>
-    </a>
+
+    <canvas class="column" id="canvas" style="background-color: white"></canvas>
+    <div class="column is-narrow">
+      <div id="inputs">
+        <div class="field">
+          <label class="label">Antall streker</label>
+          <div class="control">
+            <input class="input" type="number"></input>
+          </div>
+        </div>
+      </div>
+      <div id="controls">
+        <div class="field">
+          <button class="button is-primary" id="draw" href="#">
+            <span>Tegn &nbsp;</span>
+            <i class="fa fa-pencil"></i>
+          </button>
+        </div>
+        <div class="field">
+          <a class="button is-primary" id="download" download="art.svg" href="#">
+            <span>Last ned &nbsp;</span>
+            <i class="fa fa-download"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </body>
