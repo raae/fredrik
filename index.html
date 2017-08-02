@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.4/paper-full.min.js"></script>
-  <script type="text/paperscript" src="main.js" canvas="draw"></script>
+  <script type="text/paperscript" src="main.js" canvas="canvas" keepalive="true"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
@@ -16,9 +16,9 @@
       height: 100%;
     }
 
-    #draw {
+    #canvas {
       width: 100%;
-      height: 100%;
+      height: calc(100% - 2.75rem);
     }
 
     #controls {
@@ -30,18 +30,89 @@
       pointer-events: all;
       opacity: 1;
     }
+
+    .column.is-2 {
+      padding-right: 2rem !important;
+    }
+
+    .button {
+      width: 100%;
+    }
   </style>
 </head>
 
-<body class="container is-fluid">
+<body>
   <div class="columns section">
-    <canvas class="column" id="draw" style="background-color: white" keepalive="true"></canvas>
-    <div class="column is-narrow" id="controls">
-      <a class="button is-primary" id="download" download="art.svg" href="#">
-      Last ned &nbsp;
-      <i class="fa fa-download"></i>
-    </a>
+
+    <div class="column is-2">
+      <div id="controls" class="active">
+        <label class="label">Format</label>
+        <div class="field has-addons">
+          <div class="control">
+            <input id="width" class="input" type="number"></input>
+          </div>
+          <div class="control">
+            <button class="button is-static">&nbsp;:&nbsp;</button>
+          </div>
+          <div class="control">
+            <input id="height" class="input" type="number"></input>
+          </div>
+        </div>
+        <label class="label">Maks lengde per strek</label>
+        <div class="field has-addons">
+          <div class="control">
+            <input id="line-length-procentage" class="input" type="number"></input>
+          </div>
+          <div class="control">
+            <button class="button is-static">i prosent</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">av hvilken side</label>
+          <div class="control">
+            <label class="radio" id="line-length-of">
+              <input type="radio" value="width" name="line-length-side"></input>
+              Bredde
+            </label>
+            <label class="radio">
+              <input type="radio" value="height" name="line-length-side" checked></input>
+              Høyde
+            </label>
+          </div>
+        </div>
+        <label class="label">Antall streker</label>
+        <div class="field">
+          <div class="control">
+            <input id="number-of-lines" class="input" type="number"></input>
+          </div>
+        </div>
+        <label class="label">Tid mellom streker</label>
+        <div class="field has-addons">
+          <div class="control">
+            <input id="wait-time" class="input" type="number"></input>
+          </div>
+          <div class="control">
+            <button class="button is-static">i ms</button>
+          </div>
+        </div>
+        <div class="field">
+          <a class="button is-primary" id="draw" href="#">
+            <span>Tegn &nbsp;</span>
+            <i class="fa fa-pencil"></i>
+          </a>
+        </div>
+        <div class="field">
+          <a class="button is-primary" id="download" download="art.svg" href="#">
+            <span>Last ned &nbsp;</span>
+            <i class="fa fa-download"></i>
+          </a>
+        </div>
+      </div>
     </div>
+    <div class="column">
+      <canvas id="canvas" style="background-color: white"></canvas>
+    </div>
+
   </div>
 </body>
 
