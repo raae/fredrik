@@ -67,8 +67,8 @@
             <button class="button is-static">i prosent</button>
           </div>
         </div>
+        <label class="label">av hvilken side</label>
         <div class="field">
-          <label class="label">av hvilken side</label>
           <div class="control">
             <label class="radio" id="line-length-of">
               <input type="radio" value="width" name="line-length-side"></input>
@@ -84,6 +84,19 @@
         <div class="field">
           <div class="control">
             <input id="number-of-lines" class="input" type="number"></input>
+          </div>
+        </div>
+        <label class="label">Tillatt å gå bakover?</label>
+        <div class="field">
+          <div class="control">
+            <label class="radio" id="line-length-of">
+              <input type="radio" value="yes" name="backtracking-allowed" checked></input>
+              Ja
+            </label>
+            <label class="radio">
+              <input type="radio" value="no" name="backtracking-allowed"></input>
+              Nei
+            </label>
           </div>
         </div>
         <label class="label">Tid mellom streker</label>

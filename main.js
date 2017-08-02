@@ -59,11 +59,13 @@ lineLengthProcentageInput.value = MAX_LENGTH;
 var drawButton = document.querySelector('#draw');
 drawButton.addEventListener('click', function () {
   var lineLengthSideInput = document.querySelector('input[name="line-length-side"]:checked');
+  var backtrackingAllowedInput = document.querySelector('input[name="backtracking-allowed"]:checked');
   var options = {
     numberOfLines: numberOfLinesInput.value,
     waitTime: waitTimeInput.value,
     maxLength: (lineLengthProcentageInput.value / 100) * (lineLengthSideInput.value === 'height' ? paper.view.size.height - 20 : paper.view.size.width - 20),
     colors: COLORS,
+    backtrackingAllowed: backtrackingAllowedInput.value === 'yes',
     size: {
       min: {
         x: 10,
@@ -133,6 +135,20 @@ var drawLine = function (point, length, color, angle, size) {
   return point;
 }
 
+function generateRandomAngle(last, options) {
+  if (options.backtrackingAllowed) {
+    return Math.floor((Math.random() * 4));
+  } else {
+    var notAllowed = (last === 0 || last === 2) ? last + 1 : last - 1;
+    var angle = notAllowed;
+    while (angle === notAllowed) {
+      angle = Math.floor((Math.random() * 4));
+    }
+    return angle;
+  }
+
+}
+
 function generateRandomValues(options) {
   var lengths = [];
   var angles = [];
@@ -140,7 +156,7 @@ function generateRandomValues(options) {
 
   for (var i = 0; i < options.numberOfLines; i++) {
     lengths.push(Math.random() * options.maxLength);
-    angles.push(Math.floor((Math.random() * 4)));
+    angles.push(generateRandomAngle(i === 0 ? -1 : angles[i - 1], options));
     colors.push(options.colors[Math.floor((Math.random() * options.colors.length))]);
   }
 
